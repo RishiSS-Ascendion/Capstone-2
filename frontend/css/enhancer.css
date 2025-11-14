@@ -1,0 +1,53 @@
+
+    /* Use same Inter font + dark background to match segmenter.html */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1f2937; /* match segmenter */
+      color: #f9fafb;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Navbar consistency */
+    nav#mainNav { box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+
+    /* File input wrapper styling kept but adapted to dark */
+    .file-input-wrapper input[type="file"] { display: none; }
+    .file-input-wrapper { cursor: pointer; }
+
+    /* Canvas container adjusted to dark theme */
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 50%; /* 1:1 */
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 1rem;
+      overflow: hidden;
+      background: #111827; /* darker panel */
+      border: 3px solid #374151;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .canvas-container canvas, .canvas-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* buttons in left pane */
+    .control-card { background: #111827; border: 1px solid #374151; }
+    .control-card h2 { color: #ffffff; }
+    .text-muted { color: #9ca3af; } /* gray-400 on dark */
+
+    /* result placeholder dark */
+    #result-img { border-radius: 0.5rem; }
+
+    /* spinner positioning if needed */
+    .spinner-inline { display: inline-block; vertical-align: middle; }
+

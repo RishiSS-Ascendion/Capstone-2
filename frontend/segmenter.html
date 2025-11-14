@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SAM + Gemini Editor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/segmenter.css">
+</head>
+<body>
+  <nav id="mainNav" class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-white tracking-wider">🖼️ AI Tools</a>
+      <div class="flex space-x-4">
+        <a href="enhancer.html" class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md">Image Enhancer</a>
+        <a href="index.html" class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md">Generator & Blender</a>
+        <a href="segmenter.html" class="nav-link bg-blue-600 text-white px-3 py-2 rounded-md">Segmenter & Editor</a>
+        <a href="gallery.html" class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md">Gallery</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="popup"></div>
+
+  <div class="max-w-3xl mx-auto text-center py-10">
+    <h2 class="text-3xl font-bold mb-6">SAM + Gemini Image Editor</h2>
+
+    <div class="space-y-6">
+      <div class="flex justify-center items-center gap-4 flex-wrap">
+        <input id="fileInput" type="file" accept="image/*"
+          class="block w-64 text-sm text-gray-300 border border-gray-600 rounded-lg cursor-pointer bg-gray-700">
+        <button onclick="upload()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg">⬆️ Upload</button>
+        <button onclick="undoRegion()" class="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-5 rounded-lg">↩️ Undo Region</button>
+        <button onclick="undoOriginal()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-5 rounded-lg">🔄 Undo to Original</button>
+      </div>
+
+      <p id="status" class="text-gray-300 text-sm italic">Upload an image to begin.</p>
+      <img id="mainImg" src="" alt="Upload an image" />
+
+      <div class="flex justify-center items-center gap-3 flex-wrap">
+        <input id="prompt" type="text" placeholder="e.g. make the dog's fur white"
+          class="w-2/3 px-4 py-2 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500"/>
+        <button onclick="applyEdit()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-lg">✏️ Apply Edit</button>
+        <button id="downloadBtn" onclick="downloadImage()" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-lg">⬇️ Download</button>
+      </div>
+
+      <!-- Push button -->
+      <button onclick="pushToEnhancer()" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-5 rounded-lg mt-3">
+        🚀 Push to Enhancer
+      </button>
+
+      <p id="loading" class="text-yellow-300 font-semibold mt-4" style="display:none;">⏳ Processing...</p>
+    </div>
+  </div>
+
+  <script src="js/segmenter.js"></script>
+</body>
+</html>

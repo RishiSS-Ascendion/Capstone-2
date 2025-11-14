@@ -1,0 +1,20 @@
+
+    body { background-color: #1f2937; font-family: 'Inter', sans-serif; color: #f9fafb; }
+    #mainImg {
+      max-width: 80vw; max-height: 70vh;
+      border-radius: 1rem; border: 3px solid #374151;
+      display: block; margin: 20px auto; cursor: crosshair;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    #popup {
+      display: none; position: fixed; top: 20px; right: 20px;
+      background: #10b981; color: white; padding: 12px 20px;
+      border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 9999; font-weight: 600; animation: fadeInOut 3s forwards;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(-10px); }
+      10% { opacity: 1; transform: translateY(0); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-10px); }
+    }

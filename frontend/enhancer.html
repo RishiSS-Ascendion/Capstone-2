@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Image Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/enhancer.css">
+</head>
+<body class="p-4 md:p-8">
+
+  <nav id="mainNav" class="bg-gray-800 p-4 sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-white tracking-wider">🖼️ AI Tools</a>
+      <div class="flex space-x-4">
+        <a href="enhancer.html" id="link-enhancer"
+           class="nav-link bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">Image Enhancer</a>
+
+        <a href="index.html" id="link-index"
+           class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+          Generator & Blender
+        </a>
+
+        <a href="segmenter.html" id="link-segmenter"
+           class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+          Segmenter & Editor
+        </a>
+
+        <a href="gallery.html" id="link-gallery"
+           class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+          Gallery
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-4xl font-extrabold text-white mb-2">AI Image Enhancer</h1>
+    <p class="text-lg text-gray-300 mb-8">Upload a base image and describe the change. The AI will enhance the image based on your prompt and visual context.</p>
+
+    <!-- Main Layout -->
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- Controls Column -->
+      <div class="lg:w-1/3 p-6 control-card rounded-xl shadow-xl order-2 lg:order-1">
+        <!-- Step 1: Image Upload -->
+        <div class="mb-6 border-b border-gray-700 pb-4">
+          <h2 class="text-2xl font-semibold mb-3">1. Upload Base Image</h2>
+          <label for="image-upload" class="file-input-wrapper inline-block w-full py-3 px-6 text-base font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition duration-150 ease-in-out shadow-md">
+            <svg class="w-5 h-5 inline mr-2 -mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+            Choose Image File
+          </label>
+          <p id="file-name" class="mt-2 text-sm text-muted">No file selected.</p>
+          <input type="file" id="image-upload" accept="image/*" class="hidden">
+        </div>
+
+        <!-- Step 2: Prompt -->
+        <div class="mb-6 border-b border-gray-700 pb-4">
+          <h2 class="text-2xl font-semibold mb-3">2. Describe New Image</h2>
+          <textarea id="prompt" class="w-full h-24 p-3 border border-gray-600 rounded-lg bg-gray-800 text-white focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., 'A hyper-realistic oil painting of this scene with heavy rain and lightning.'"></textarea>
+        </div>
+
+        <!-- Step 3: Adjust Image Size -->
+        <div class="mb-6 border-b border-gray-700 pb-4">
+          <h2 class="text-2xl font-semibold mb-3">3. Adjust Image Size</h2>
+          <div class="flex space-x-4">
+            <button id="reduce-size-btn" class="flex-1 py-2 px-4 text-sm font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200 transition duration-150 ease-in-out shadow-sm" disabled>
+              Reduce Size (-)
+            </button>
+            <button id="enlarge-size-btn" class="flex-1 py-2 px-4 text-sm font-medium text-green-700 bg-green-100 rounded-lg hover:bg-green-200 transition duration-150 ease-in-out shadow-sm" disabled>
+              Enlarge Size (+)
+            </button>
+          </div>
+          <p id="zoom-status" class="mt-2 text-center text-sm text-muted">Current Zoom: 100%</p>
+        </div>
+
+        <!-- Step 4: Generate Button -->
+        <div class="mb-6">
+          <h2 class="text-2xl font-semibold mb-3">4. Generate</h2>
+          <button id="generate-btn" class="w-full py-3 px-6 text-lg font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-150 ease-in-out shadow-lg disabled:bg-gray-400" disabled>
+            <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline hidden spinner-inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Start Generation
+          </button>
+        </div>
+
+        <!-- Status Message -->
+        <div id="status-message" class="mt-4 p-3 text-center text-sm rounded-lg transition-all duration-300 text-muted"></div>
+
+        <!-- Download Button -->
+        <div class="mt-8 pt-4 border-t border-gray-700">
+          <button id="download-btn" class="w-full py-3 px-6 text-lg font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-150 ease-in-out shadow-lg disabled:bg-gray-400" disabled>
+            <svg class="w-5 h-5 inline mr-2 -mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            Download Image
+          </button>
+
+          <button onclick="pushToSegmenter()" 
+  class="w-full py-3 px-6 mt-4 text-lg font-bold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-150 ease-in-out shadow-lg">
+  🚀 Push to Segmenter & Editor
+</button>
+
+
+
+        </div>
+      </div>
+
+      <!-- Image Column (Right Side) -->
+      <div class="lg:w-2/3 flex flex-col items-center order-1 lg:order-2">
+        <!-- Base Image Area -->
+        <div class="mb-8 w-full">
+          <h2 class="text-2xl font-semibold text-white mb-3 text-center">Base Image</h2>
+          <div class="canvas-container shadow-xl border border-gray-600 bg-black rounded-xl">
+            <!-- Canvas used by your existing logic -->
+            <canvas id="imageCanvas" width="1024" height="1024" class="rounded-xl"></canvas>
+            <canvas id="drawCanvas" width="1024" height="1024" class="rounded-xl hidden"></canvas>
+          </div>
+          <p class="text-sm text-muted text-center mt-2">The image the AI uses for context (1024×1024 resolution).</p>
+        </div>
+
+        <!-- Generated Result Area -->
+        <div class="w-full mt-4">
+          <h2 class="text-2xl font-semibold text-white mb-3 text-center">Generated Result</h2>
+          <div class="canvas-container shadow-xl border border-gray-600 bg-gray-800 rounded-xl flex items-center justify-center">
+            <img id="result-img" src="https://placehold.co/512x512/d1d5db/374151?text=Generated+Result" alt="Generated Image" class="max-w-full max-h-full rounded-lg object-contain">
+          </div>
+          <p class="text-sm text-muted text-center mt-2">The AI-modified image based on your prompt.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keep entire original JavaScript logic unchanged (only styling changed above) -->
+  <script src="js/enhancer.js"></script>
+
+</body>
+</html>

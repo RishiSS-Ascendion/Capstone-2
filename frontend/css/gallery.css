@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    body {
+      background-color: #1f2937;
+      color: #f9fafb;
+      font-family: 'Inter', sans-serif;
+    }
+    #galleryGrid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+    #galleryGrid img {
+      width: 230px;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid #374151;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    #galleryGrid img:hover {
+      transform: scale(1.05);
+      border-color: #2563eb;
+    }

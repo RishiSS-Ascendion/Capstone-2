@@ -1,0 +1,62 @@
+/* Global layout styles */
+body {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: #1f2937; /* Dark slate background */
+  color: #f9fafb; /* Default text color for the body */
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Custom styles for the dark theme controls */
+.control-card {
+  background-color: #374151; /* Slightly lighter card background */
+}
+
+/* Ensure prompt/input fields have high contrast */
+textarea, select {
+    background-color: #4b5563;
+    color: #f9fafb; /* White text for input content */
+    border-color: #6b7280;
+}
+
+/* Custom adjustment for input visibility on dark background */
+label {
+    color: #d1d5db; /* Lighter gray for labels */
+}
+
+input[type="range"] {
+    /* Inverts the color scheme of the default slider track/thumb for visibility */
+    filter: invert(0.8);
+}
+
+
+/* Blended canvas style */
+#blendedCanvas {
+  /* Retained the blue border style but adjusted for the dark background */
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  background-color: #4b5563; /* Darker background for canvas container */
+  box-shadow: 0 10px 15px rgba(59, 130, 246, 0.2);
+}
+
+/* Spinner */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.08);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #fff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Utility hidden class (used by JS) */
+.hidden {
+  display: none !important;
+}

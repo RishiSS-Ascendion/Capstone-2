@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gemini AI Image Generator & Blender</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="p-4 md:p-8">
+
+   <nav id="mainNav" class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-white tracking-wider">
+        🖼️ AI Tools
+      </a>
+      <div class="flex space-x-4">
+
+        <a href="enhancer.html" id="link-index"
+           class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+            Image Enhancer
+        </a>
+
+        <a href="index.html" id="link-index"
+           class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+          Generator & Blender
+        </a>
+        <a href="segmenter.html" id="link-segmenter"
+           class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+          Segmenter & Editor
+        </a>
+        <a href="gallery.html" id="link-gallery"
+           class="nav-link text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+          Gallery
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container mx-auto">
+    <h1 class="text-4xl font-extrabold mb-2 text-center text-gray-50">
+      Gemini AI Image Generator & Blender
+    </h1>
+    <p class="text-center text-gray-400 mb-8">
+      A creative compositing tool powered by Generative AI models.
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <div class="lg:col-span-2 space-y-6">
+        
+        <div class="control-card p-6 rounded-xl shadow-2xl grid grid-cols-1 md:grid-cols-4 gap-6 items-end border-t-4 border-blue-500">
+          <h2 class="md:col-span-4 text-xl font-bold text-white mb-2">1. Image Prompts & Generation</h2>
+          
+          <div class="md:col-span-2">
+            <label for="bgPrompt" class="block text-sm font-medium mb-2">Background Scene Prompt</label>
+            <textarea id="bgPrompt" rows="3" class="w-full p-3 rounded-lg" placeholder="e.g., A lush, neon forest at sunset, highly detailed, photorealistic"></textarea>
+          </div>
+
+          <div class="md:col-span-2">
+            <label for="fgPrompt" class="block text-sm font-medium mb-2">Foreground Subject Prompt</label>
+            <textarea id="fgPrompt" rows="3" class="w-full p-3 rounded-lg" placeholder="e.g., A large, vintage spacecraft floating, cinematic lighting."></textarea>
+            <p class="text-xs text-blue-300 mt-1">Note: We request a pure white background to help chroma removal.</p>
+          </div>
+
+          <div class="md:col-span-4">
+            <button id="generateBtn" class="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-150">GENERATE & BLEND IMAGES</button>
+          </div>
+        </div>
+        
+        <div class="control-card p-6 rounded-xl shadow-2xl space-y-4 border-t-4 border-purple-500">
+          <h2 class="text-xl font-bold text-white">2. Manual Foreground Adjustments</h2>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">X Position (<span id="fgXValue">256</span>)</label>
+              <input id="fgX" type="range" min="0" max="512" step="1" value="256" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Y Position (<span id="fgYValue">256</span>)</label>
+              <input id="fgY" type="range" min="0" max="512" step="1" value="256" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Scale (<span id="fgScaleValue">1.0</span>)</label>
+              <input id="fgScale" type="range" min="0.1" max="2.0" step="0.05" value="1.0" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Opacity (<span id="opacityValue">1.0</span>)</label>
+              <input id="opacitySlider" type="range" min="0.1" max="1.0" step="0.05" value="1.0" />
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium mb-2">Rotation (°) (<span id="fgRotationValue">0</span>°)</label>
+              <input id="fgRotation" type="range" min="-180" max="180" step="1" value="0" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Skew X (<span id="fgSkewXValue">0</span>)</label>
+              <input id="fgSkewX" type="range" min="-0.5" max="0.5" step="0.01" value="0" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Skew Y (<span id="fgSkewYValue">0</span>)</label>
+              <input id="fgSkewY" type="range" min="-0.5" max="0.5" step="0.01" value="0" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-gray-600">
+            <div>
+              <label class="block text-sm font-medium mb-2">Brightness (<span id="fgBrightnessValue">100%</span>)</label>
+              <input id="fgBrightness" type="range" min="0" max="200" step="5" value="100" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Contrast (<span id="fgContrastValue">100%</span>)</label>
+              <input id="fgContrast" type="range" min="0" max="200" step="5" value="100" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Saturation (<span id="fgSaturationValue">100%</span>)</label>
+              <input id="fgSaturation" type="range" min="0" max="200" step="5" value="100" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Hue (<span id="fgHueValue">0</span>°)</label>
+              <input id="fgHue" type="range" min="0" max="360" step="5" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="control-card p-6 rounded-xl shadow-2xl border-t-4 border-green-500">
+          <h2 class="text-xl font-bold text-white mb-4">3. AI Agent Auto-Adjust</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div class="md:col-span-3">
+              <label class="block text-sm font-medium mb-2">Describe Placement and Style Correction</label>
+              <textarea id="agentPrompt" rows="2" class="w-full p-3 rounded-lg" placeholder="e.g., Make it look small and tilted in the top-left corner, and match the dark, moody background color."></textarea>
+            </div>
+            <div class="md:col-span-1">
+              <button id="autoAdjustBtn" class="w-full py-3 px-6 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition duration-150">AUTO ADJUST</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-end mt-4 pt-4 border-t border-gray-600">
+            <div>
+              <label class="block text-sm font-medium mb-2">Blending Mode</label>
+              <select id="blendMode" class="w-full p-3 rounded-lg">
+                <option value="source-over" selected>Normal</option>
+                <option value="multiply">Multiply</option>
+                <option value="screen">Screen</option>
+                <option value="overlay">Overlay</option>
+                <option value="difference">Difference</option>
+                <option value="lighter">Lighter</option>
+              </select>
+            </div>
+
+            <div class="flex flex-col justify-end">
+              <label class="flex items-center text-sm font-medium cursor-pointer">
+                <input id="autoRemoveBg" type="checkbox" class="mr-2" checked />
+                <span>Remove BG (Chromakey)</span>
+              </label>
+              <p class="text-xs text-gray-400">Targets the top-left corner color.</p>
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium mb-2">BG Removal Tolerance (<span id="toleranceValue">75</span>)</label>
+              <input id="toleranceSlider" type="range" min="5" max="150" step="5" value="75" />
+            </div>
+          </div>
+          
+          <div class="flex flex-col justify-end mt-4">
+            <label class="flex items-center text-sm font-medium cursor-pointer">
+                <input id="fgMirror" type="checkbox" class="mr-2" />
+                <span>Mirror Foreground (Flip X)</span>
+            </label>
+            <label class="flex items-center text-sm font-medium cursor-pointer">
+                <input id="requestPngTransparency" type="checkbox" class="mr-2" />
+                <span>Request PNG Transparency (for generator)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div id="loadingIndicator" class="hidden flex justify-center items-center p-4 rounded-lg bg-yellow-800 text-white font-semibold">
+            <div class="spinner mr-3"></div> Generating images... this may take up to 60 seconds.
+          </div>
+          <div id="agentLoadingIndicator" class="hidden flex justify-center items-center p-4 rounded-lg bg-green-800 text-white font-semibold">
+            <div class="spinner mr-3" style="border-left-color:#fff;"></div> Agent calculating adjustments...
+          </div>
+          <div id="messageBox" class="p-4 rounded-lg text-red-300 bg-red-800 hidden" role="alert"></div>
+        </div>
+
+      </div>
+
+      <div class="lg:col-span-1 lg:sticky lg:top-4 h-fit">
+        
+        <div class="space-y-6 flex flex-col">
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-gray-700 p-2 rounded-xl shadow-lg flex flex-col items-center border-t-2 border-blue-400">
+                <h2 class="text-xs font-semibold mb-1 text-blue-400">Raw Background</h2>
+                <img id="bgImage" class="w-full h-auto rounded-lg object-contain" alt="Background" src="https://placehold.co/512x512/374151/e0f2fe?text=Background" />
+              </div>
+
+              <div class="bg-gray-700 p-2 rounded-xl shadow-lg flex flex-col items-center border-t-2 border-blue-400">
+                <h2 class="text-xs font-semibold mb-1 text-blue-400">Raw Foreground</h2>
+                <img id="fgImage" class="w-full h-auto rounded-lg object-contain" alt="Foreground" src="https://placehold.co/512x512/374151/e0f2fe?text=Foreground" />
+              </div>
+            </div>
+
+            <div class="bg-gray-700 p-4 rounded-xl shadow-2xl flex flex-col items-center flex-grow border-t-4 border-white">
+              <h2 class="text-xl font-bold mb-4 text-white">4. Final Blended Output</h2>
+              <canvas id="blendedCanvas" width="512" height="512" class="w-full h-auto max-w-full rounded-lg shadow-lg"></canvas>
+              <div class="mt-4 w-full">
+                <button id="downloadBtn" disabled class="w-full py-3 px-6 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition duration-150">DOWNLOAD IMAGE</button>
+              </div>
+
+              <button onclick="pushToSegmenterFromGenerator()" 
+  class="w-full py-3 px-6 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition duration-150 mt-3">
+  🚀 Push to Segmenter & Editor
+</button>
+
+<!-- Push to Image Enhancer Button -->
+<button onclick="pushToEnhancerFromGenerator()"
+  class="w-full py-3 px-6 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition duration-150 mt-3">
+  🚀 Push to Image Enhancer
+</button>
+
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/blending.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/main.js"></script>
+
+
+  </body>
+</html>

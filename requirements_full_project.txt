@@ -1,0 +1,9 @@
+flask
+flask-cors
+google-generativeai==0.5.2
+Pillow
+torch
+opencv-python
+numpy
+python-dotenv
+requests
